@@ -12,27 +12,27 @@ function healthArmour:draw()
             armourAmount = getLocalPlayer().armor;
             health = getLocalPlayer().health;
             VMHUD_FONT = "RobotoMono-Bold"
-
+            opacity = 170
             --choose armour colour
             if (armourType == 0) then 
-                armourColour = Color(0,255,0,255);
+                armourColour = Color(0,255,0,opacity);
             elseif (armourType == 1) then 
-                armourColour = Color(255,255,0,255);
+                armourColour = Color(255,255,0,opacity);
             elseif (armourType == 2) then 
-                armourColour = Color(255,0,0,255);
+                armourColour = Color(255,0,0,opacity);
             end
 
             --choose health colour
             if (health > 100) then
-                healthColour = Color(0,255,255,255); --cyan
+                healthColour = Color(0,255,255,opacity); --cyan
             elseif (health <= 100 and health > 75) then
-                healthColour = Color(0,255,0,255); --green
+                healthColour = Color(0,255,0,opacity); --green
             elseif (health <= 75 and health > 50) then
-                healthColour = Color(255,255,0,255); --yellow
+                healthColour = Color(255,255,0,opacity); --yellow
             elseif (health <= 50 and health > 25) then
-                healthColour = Color(255,128,0,255); --orange
+                healthColour = Color(255,128,0,opacity); --orange
             elseif (health <= 25 and health > 0) then
-                healthColour = Color(255,0,0,255); --red
+                healthColour = Color(255,0,0,opacity); --red
             end
 
             --HEALTH
