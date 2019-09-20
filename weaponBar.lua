@@ -4,15 +4,16 @@ weaponBar = {}
 registerWidget("weaponBar")
 
 function weaponBar:draw()
-    player = getPlayer()
-    VMHUD_FONT = "RobotoMono-Bold"
-    x = 40
-    iconY = 400
-    textY = 350
-    colourBlack = Color(0,0,0,255)
-    meleeItem = inventoryDefinitions[player.inventoryMelee]
     if not shouldShowHUD() then return end
+        player = getPlayer()
         if  player ~= nil then
+            VMHUD_FONT = "RobotoMono-Bold"
+            x = 40
+            iconY = 400
+            textY = 350
+            colourBlack = Color(0,0,0,255)
+            meleeItem = inventoryDefinitions[player.inventoryMelee]
+        
             --Rocket
             rocketX = -280
             if player.weaponIndexSelected == 6 then
