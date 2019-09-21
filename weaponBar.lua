@@ -3,11 +3,11 @@ weaponBar = {}; registerWidget("weaponBar")
 
 function weaponBar:draw()
     if not shouldShowHUD() then return end
-    player = getPlayer()
+        player = getPlayer()
         if  player ~= nil then
             --init
             VMHUD_FONT = "RobotoMono-Bold"; iconY = 400; textY = 350; colourBlack = Color(0,0,0,255)
-            svgFilepath = "internal/ui/icons/weapon"; meleePath = inventoryDefinitions[player.inventoryMelee].asset;
+            svgFilepath = "internal/ui/icons/weapon"; meleePath = inventoryDefinitions[player.inventoryMelee].asset
             positions = {{6,-280},{7,-200},{8,-120},{3,-40},{4,40},{5,120},{2,200},{1,280}}
             nvgFontSize(40); nvgFontFace(VMHUD_FONT); nvgTextAlign(NVG_ALIGN_CENTER, NVG_ALIGN_MIDDLE)
             --main loop
@@ -29,9 +29,10 @@ function weaponBar:draw()
                 nvgSvg(filepath,x+2,iconY+2,30)
                 --icon
                 nvgFillColor(player.weapons[wep].color)
-                if wep ~= 1 then nvgText(x,textY, player.weapons[wep].ammo) end
+                if wep ~= 1 then nvgText(x,textY,player.weapons[wep].ammo) end
                 nvgSvg(filepath,x-2,iconY-2,30)       
             end
+        
     end
 end
 

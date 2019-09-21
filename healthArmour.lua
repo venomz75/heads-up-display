@@ -1,94 +1,53 @@
 require "base/internal/ui/reflexcore"
-
-healthArmour = {};
-registerWidget("healthArmour");
-
+healthArmour = {}; registerWidget("healthArmour")
 
 function healthArmour:draw()
-    if not shouldShowHUD() then return end;
-        if  getLocalPlayer() ~= nil then
-            mega = getLocalPlayer().hasMega;
-            armourType = getLocalPlayer().armorProtection;
-            armourAmount = getLocalPlayer().armor;
-            health = getLocalPlayer().health;
-            VMHUD_FONT = "RobotoMono-Bold"
-            opacity = 170
-            --choose armour colour
+    if not shouldShowHUD() then return end
+        player = getPlayer()
+        if  player ~= nil then
+            VMHUD_FONT = "RobotoMono-Bold"; opacity = 170; x = -300; emptyBar = Color(0,0,0,100)
+            mega = player.hasMega; health = player.health
+            armourType = player.armorProtection; armourAmount = player.armor
+            nvgFontSize(40); nvgFontFace(VMHUD_FONT); nvgTextAlign(NVG_ALIGN_CENTER, NVG_ALIGN_MIDDLE)
+            --get armour colour
             if (armourType == 0) then 
-                armourColour = Color(0,255,0,opacity);
+                armourColour = Color(0,255,0,opacity)
             elseif (armourType == 1) then 
-                armourColour = Color(255,255,0,opacity);
+                armourColour = Color(255,255,0,opacity)
             elseif (armourType == 2) then 
-                armourColour = Color(255,0,0,opacity);
+                armourColour = Color(255,0,0,opacity)
             end
 
-            --choose health colour
+            --get health colour
             if (health > 100) then
-                healthColour = Color(0,255,255,opacity); --cyan
-            elseif (health <= 100 and health > 75) then
-                healthColour = Color(0,255,0,opacity); --green
-            elseif (health <= 75 and health > 50) then
-                healthColour = Color(255,255,0,opacity); --yellow
-            elseif (health <= 50 and health > 25) then
-                healthColour = Color(255,128,0,opacity); --orange
-            elseif (health <= 25 and health > 0) then
-                healthColour = Color(255,0,0,opacity); --red
+                healthColour = Color(0,255,255,opacity) --cyan
+            elseif (health > 75) then
+                healthColour = Color(0,255,0,opacity) --green
+            elseif (health > 50) then
+                healthColour = Color(255,255,0,opacity) --yellow
+            elseif (health > 25) then
+                healthColour = Color(255,128,0,opacity) --orange
+            else
+                healthColour = Color(255,0,0,opacity) --red
             end
 
-            --HEALTH
-            --bar background
-            nvgBeginPath()
-            nvgRect(-300,175,600,50)
-            nvgFillColor(Color(0,0,0,50))
-            nvgFill()
+            barVariables = {{175,200,health,healthColour},{235,260,armourAmount,armourColour}}
+            --{y, textY, value, colour}
+            for i = 1,2 do
+                nvgBeginPath()
+                nvgRect(x,barVariables[i][1],600,50)
+                nvgFillColor(emptyBar)
+                nvgFill()
 
-            --healthbar
-            nvgBeginPath()
-            nvgRect(-300,175,300*(health/100),50)
-            nvgFillColor(healthColour)
-            nvgFill()
+                nvgBeginPath()
+                nvgRect(x,barVariables[i][1],300*(barVariables[i][3]/100),50)
+                nvgFillColor(barVariables[i][4])
+                nvgFill()
 
-            --text shadow
-            nvgFontSize(40);
-            nvgFontFace(VMHUD_FONT);
-            nvgTextAlign(NVG_ALIGN_CENTER, NVG_ALIGN_MIDDLE);
-            nvgFillColor(Color(0,0,0,255));
-            nvgText(2,202, health);    
-            
-            --text
-            nvgFontSize(40);
-            nvgFontFace(VMHUD_FONT);
-            nvgTextAlign(NVG_ALIGN_CENTER, NVG_ALIGN_MIDDLE);
-            nvgFillColor(Color(255,255,255,255));
-            nvgText(0,200, health);    
-
-
-            --ARMOUR
-            --bar background
-            nvgBeginPath()
-            nvgRect(-300,235,600,50)
-            nvgFillColor(Color(0,0,0,50))
-            nvgFill()
-
-            --armourbar
-            nvgBeginPath()
-            nvgRect(-300,235,300*(armourAmount/100),50)
-            nvgFillColor(armourColour)
-            nvgFill()            
-            
-            --text shadow
-            nvgFontSize(40);
-            nvgFontFace(VMHUD_FONT);
-            nvgTextAlign(NVG_ALIGN_CENTER, NVG_ALIGN_MIDDLE);
-            nvgFillColor(Color(0,0,0,255));
-            nvgText(2,262, armourAmount);
-
-            --text
-            nvgFontSize(40);
-            nvgFontFace(VMHUD_FONT);
-            nvgTextAlign(NVG_ALIGN_CENTER, NVG_ALIGN_MIDDLE);
-            nvgFillColor(Color(255,255,255,255));
-            nvgText(0,260, armourAmount);
-            
+                nvgFillColor(Color(0,0,0,255))
+                nvgText(2,barVariables[i][2]+2,barVariables[i][3])
+                nvgFillColor(Color(255,255,255,255))
+                nvgText(0,barVariables[i][2],barVariables[i][3])
+            end    
     end
 end
